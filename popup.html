@@ -1,0 +1,53 @@
+<html>
+  <body>
+    <style>
+      html {
+        height: 500px;
+        width: 300px;      
+      }
+      </style>
+    <h1>Get Pgen password</h1>
+    <div id="api_key">
+      <form action="" id="api_key_form">
+        <label for="api_key">PaLM API Key:</label><br>
+        <input type="text" id="api_key_txt" name="api_key_txt"><br>
+        <button type="button" id="api_btn">Submit API Key</button>
+      </form>
+    </div>
+
+    <div id="start_div">
+      <form action="" id="pwd_form">
+        <button type="button" id="places_btn">Places</button>
+        <br>
+        <button type="button" id="animals_btn">Animals</button>
+        <br>
+        <button type="button" id="colors_btn">Colors</button>
+        <br>
+        <button type="button" id="profs_btn">Dream profession</button>
+        <br>
+      </form>
+
+      <div id="places_cboxes">Places</div>
+      <div id="animals_cboxes">Animals</div>
+      <div id="colors_cboxes">Colors</div>
+      <div id="profs_cboxes">Dream Professions</div>
+
+      <label><input type='checkbox' id="caps_cbox">Password needs Capital Letters</label>
+      <br>
+      <label><input type='checkbox' id="special_chars_cbox">Password needs Special Characters</label>
+      <br>
+      <label><input type='checkbox' id="numbers_cbox">Password needs Numbers</label>
+      <br>
+
+      <form action="" id="gen_form">
+        <button type="button" id="get_btn">Generate Password</button>
+        <br>
+        <button type="button" id="reset_btn">Get me another Password</button>
+      </form>
+      <span id="pwd_div">
+        password_placeholder
+      </span>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>
