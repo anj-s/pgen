@@ -38,9 +38,13 @@ var caps_cbox_id = document.getElementById("caps_cbox");
 var special_chars_cbox_id = document.getElementById("special_chars_cbox");
 var numbers_id = document.getElementById("numbers_cbox");
 
+
 // Display only the form that we use for capturing the API key.
-let start_div = document.getElementById("start_div")
-start_div.style.display = "none"
+document.getElementById("start_div").style.display = "none"
+document.getElementById("cboxes_div").style.display = "none"
+document.getElementById("pwd_reqs_div").style.display = "none"
+document.getElementById("pwd_actions_div").style.display = "none"
+document.getElementById("pwd_result_div").style.display = "none"
 
 function setup(){
     
@@ -52,8 +56,7 @@ function setup(){
 }
 
 function populate_popup(){
-    let start_div = document.getElementById("start_div")
-    start_div.style.display = "block"
+    document.getElementById("start_div").style.display = "block"
 
     all_topics = Object.keys(palm_data)
     for(var i=0; i<all_topics.length; i++){
@@ -62,30 +65,43 @@ function populate_popup(){
         for (var j = 0; j < cur_data.length; j++) {
             var checkBox = document.createElement("input");
             var label = document.createElement("label");
+            var br_elem = document.createElement("br");
+            // cur_div.appendChild(br_elem)
             checkBox.type = "checkbox";
             checkBox.value = cur_data[j];
             checkBox.id = cur_data[j] + "_id";
+            label.id = cur_data[j] + "_label__id"
             checkBox.addEventListener("click", handleTopic);
             cur_div.appendChild(checkBox);
             cur_div.appendChild(label);
-            label.appendChild(document.createTextNode(cur_data[j]));
+            label.style.fontSize = "25px";
+            label.appendChild(document.createTextNode(" " + cur_data[j]));
+            // cur_div.appendChild(br_elem)
+
         }
     }
     
     reset_all()
+
+}
+
+function reset_all(){
+    document.getElementById("start_div").style.display = "block"
+    document.getElementById("pwd_form").style.display = "block"
+
+    document.getElementById("pwd_reqs_div").style.display = "none"
+    document.getElementById("pwd_actions_div").style.display = "none"
+    document.getElementById("pwd_result_div").style.display = "none"
+
+
+    document.getElementById("special_chars_cbox").checked = false
+    document.getElementById("caps_cbox").checked = false
+
+    document.getElementById("cboxes_div").style.display = "block"
     setup_topic_listeners("places")
     setup_topic_listeners("animals")
     setup_topic_listeners("profs")
     setup_topic_listeners("colors")
-}
-
-function reset_all(){
-    document.getElementById("pwd_form").style.display = "block"
-    document.getElementById("pwd_div").style.display = "none"
-    document.getElementById("reset_btn").style.display = "none"
-
-    document.getElementById("special_chars_cbox").checked = false
-    document.getElementById("caps_cbox").checked = false
 
     all_topics = Object.keys(palm_data)
     for(var i=0; i<all_topics.length; i++){
@@ -114,22 +130,24 @@ function setup_topic_listeners(topic) {
 
     cur_btn.addEventListener('click', () => {
         cur_topic = topic;
-        console.log("setup_topic_listeners " + cur_topic)
         for(var i=0; i<all_topics.length; i++){
+            // We can remove this and just set "start_div" to none.
             document.getElementById(all_topics[i] + "_btn").style.display = "none"
         }
         document.getElementById(topic + "_cboxes").style.display = "block"
         document.getElementById("reset_btn").style.display = "block"
+        document.getElementById("get_btn").style.display = "block"
+        document.getElementById("pwd_reqs_div").style.display = "block"
+        document.getElementById("pwd_actions_div").style.display = "block"
     })
 }
 
 
 api_btn = document.getElementById("api_btn")
 api_btn.addEventListener('click', () => {
-    let api_key_div = document.getElementById("api_key")
+    let api_key_div = document.getElementById("api_key_div")
     api_key_div.style.display = "none"
     palm_api_key = document.getElementById("api_key_txt").value
-    console.log(palm_api_key)
     setup()
 })
 
@@ -150,6 +168,12 @@ get_btn.addEventListener('click', () => {
     } else {
         prepare_pwd_result(result)
     }
+    document.getElementById("start_div").style.display = "none"
+    document.getElementById("cboxes_div").style.display = "none"
+    document.getElementById("pwd_reqs_div").style.display = "none"
+    document.getElementById("get_btn").style.display = "none"
+
+    document.getElementById("reset_btn").style.display = "block"
 })
 
 function prepare_pwd_result(result){
@@ -170,6 +194,7 @@ function prepare_pwd_result(result){
     let pwd_div = document.getElementById("pwd_div")
     pwd_div.style.display = "block"
     pwd_div.innerHTML = result
+    document.getElementById("pwd_result_div").style.display = "block"
     // TODO(anj): Add more style element
     // TODO(anj): Display multiple pwd options
 }

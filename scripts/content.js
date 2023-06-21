@@ -8,7 +8,7 @@ if (article) {
   // Image link for pgen
   const badge = document.createElement('a');
   badge.classList.add('color-secondary-text', 'type--caption');
-  badge.textContent = `Get pgen password`;
+  badge.textContent = `I want a Pgen password`;
   const url = chrome.runtime.getURL('popup.html');
   console.log(url)
   
