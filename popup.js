@@ -3,7 +3,7 @@ demo_data = {
     "places": ["Italy", "Australia", "India", "Norway"],
     "animals": ["elephant", "lion", "orca", "panda"],
     "colors": ["teal", "pink", "blue", "green"],
-    "profs": ["doctor", "astronaut", "racer", "golfer"]
+    "nfl": ["Brady", "Manning", "Rodgers", "Brees", "Wilson"]
 }
 
 // API key
@@ -13,24 +13,22 @@ data_prompts = {
     "places": "Give me the top 5 most popular cities in a javascript list delimited by square brackets.",
     "animals": "Give me the top 5 most popular animals in a javascript list delimited by square brackets.",
     "colors": "Give me the top 5 most popular colors in a javascript list delimited by square brackets.",
-    "profs": "Give me the top 5 most popular professions in a javascript list delimited by square brackets.",
+    "nfl": "Give me the top 5 most popular NFL players's last name in a javascript list delimited by square brackets.",
 }
 
 adj_data_prompts = {
     "places": "Return only the name of the country in which _places_ is in",
     "animals": "Return 3 adjectives for describing a _animals_ which are less than 6 characters long where the result is a list of strings",
     "colors": "Return 3 synonyms for describing the color _colors_ where the adjectives are less than 6 characters long where the result is a list of strings",
+    "nfl": "Return the NFL team that _nfl_ played the longest for"
 }
 
 palm_data = {}
-
-special_chars = ['!', '@', '#', '$', '&']
-
-var choices = [];
 var cur_topic = "None";
 var result = "None"
 
-
+special_chars = ['!', '@', '#', '$', '&']
+// Password requirements
 var requires_caps = false;
 var requires_special_chars = false;
 var requires_numbers = false;
@@ -39,15 +37,15 @@ var special_chars_cbox_id = document.getElementById("special_chars_cbox");
 var numbers_id = document.getElementById("numbers_cbox");
 
 
-// Display only the form that we use for capturing the API key.
+// Display only the form that we use for capturing the API key
 document.getElementById("start_div").style.display = "none"
 document.getElementById("cboxes_div").style.display = "none"
 document.getElementById("pwd_reqs_div").style.display = "none"
 document.getElementById("pwd_actions_div").style.display = "none"
 document.getElementById("pwd_result_div").style.display = "none"
 
+// Get subtopics for the 4 main topics.
 function setup(){
-    
     // Send out PaLM API requests
     all_topics = Object.keys(data_prompts)
     for(var i=0; i<all_topics.length; i++){
@@ -55,6 +53,7 @@ function setup(){
     }
 }
 
+// Populate the subtopics section of the UI represented by checkboxes
 function populate_popup(){
     document.getElementById("start_div").style.display = "block"
 
@@ -66,7 +65,6 @@ function populate_popup(){
             var checkBox = document.createElement("input");
             var label = document.createElement("label");
             var br_elem = document.createElement("br");
-            // cur_div.appendChild(br_elem)
             checkBox.type = "checkbox";
             checkBox.value = cur_data[j];
             checkBox.id = cur_data[j] + "_id";
@@ -74,10 +72,9 @@ function populate_popup(){
             checkBox.addEventListener("click", handleTopic);
             cur_div.appendChild(checkBox);
             cur_div.appendChild(label);
+            cur_div.appendChild(br_elem);
             label.style.fontSize = "25px";
             label.appendChild(document.createTextNode(" " + cur_data[j]));
-            // cur_div.appendChild(br_elem)
-
         }
     }
     
@@ -85,9 +82,15 @@ function populate_popup(){
 
 }
 
+// Event Listener for Subtopics added above the DOM
+function handleTopic(e) {
+    result = e.target.value
+    
+}
+
+// Reset all choices at the beginning of the another Generate password workflow
 function reset_all(){
     document.getElementById("start_div").style.display = "block"
-    document.getElementById("pwd_form").style.display = "block"
 
     document.getElementById("pwd_reqs_div").style.display = "none"
     document.getElementById("pwd_actions_div").style.display = "none"
@@ -100,7 +103,7 @@ function reset_all(){
     document.getElementById("cboxes_div").style.display = "block"
     setup_topic_listeners("places")
     setup_topic_listeners("animals")
-    setup_topic_listeners("profs")
+    setup_topic_listeners("nfl")
     setup_topic_listeners("colors")
 
     all_topics = Object.keys(palm_data)
@@ -123,6 +126,7 @@ function reset_all(){
 
 }
 
+// Setup topic listeners for each of the main topic.
 function setup_topic_listeners(topic) {
     const cur_data = palm_data[topic];
     const cur_btn = document.getElementById(topic + "_btn")
@@ -142,7 +146,32 @@ function setup_topic_listeners(topic) {
     })
 }
 
+// Build out a password given a phrase and password requirement selections
+function prepare_pwd_result(result){
+    if (requires_caps){
+        result = result[0].toUpperCase() + result.substring(1)
+    }
 
+    if (requires_special_chars){
+        index = Math.floor(Math.random() * special_chars.length)
+        result += special_chars[index]
+    }
+
+    if(requires_numbers){
+        num = Math.floor(Math.random() * 100)
+        result += num.toString()
+    }
+
+    let pwd_div = document.getElementById("pwd_div")
+    pwd_div.style.display = "block"
+    pwd_div.innerHTML = result
+    document.getElementById("pwd_result_div").style.display = "block"
+    // TODO(anj): Display multiple pwd options
+}
+
+// Event Listeners for all button
+
+// API key button
 api_btn = document.getElementById("api_btn")
 api_btn.addEventListener('click', () => {
     let api_key_div = document.getElementById("api_key_div")
@@ -151,11 +180,13 @@ api_btn.addEventListener('click', () => {
     setup()
 })
 
+// Restart Get PGen workflow button
 reset_btn = document.getElementById("reset_btn")
 reset_btn.addEventListener('click', () => {
     reset_all()
 })
 
+// Get Pgen password button
 get_btn = document.getElementById("get_btn")
 get_btn.addEventListener('click', () => {
     additional_prompt = false
@@ -176,29 +207,8 @@ get_btn.addEventListener('click', () => {
     document.getElementById("reset_btn").style.display = "block"
 })
 
-function prepare_pwd_result(result){
-    if (requires_caps){
-        result = result[0].toUpperCase() + result.substring(1)
-    }
 
-    if (requires_special_chars){
-        index = Math.floor(Math.random() * special_chars.length)
-        result += special_chars[index]
-    }
-
-    if(requires_numbers){
-        num = Math.floor(Math.random() * 100)
-        result += num.toString()
-    }
-
-    let pwd_div = document.getElementById("pwd_div")
-    pwd_div.style.display = "block"
-    pwd_div.innerHTML = result
-    document.getElementById("pwd_result_div").style.display = "block"
-    // TODO(anj): Add more style element
-    // TODO(anj): Display multiple pwd options
-}
-
+// Password requirement checkbox listeners
 
 caps_cbox_id.addEventListener('change', () => {
     if (caps_cbox_id.checked){
@@ -218,19 +228,18 @@ numbers_id.addEventListener('change', () => {
     }
 })
 
-function handleTopic(e) {
-    result = e.target.value
-    
-}
+// Network requests/responses
 
-// Palm API
+
+
+// PaLM API prompt requests for main topics
 function palm_prompts(topic, prompt){
     fetch('https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generateText?key=' + palm_api_key, {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
     },
-    body: '{ "prompt": { "text": \"' +  prompt  + '\"} }',
+    body: '{ "prompt": { "text": \"' +  prompt  + '\"}, "temperature": 0.7}',
     }).then(response => {
         if (response.ok) {
             response.json().then(json => {
@@ -248,34 +257,37 @@ function palm_prompts(topic, prompt){
     });
   }
 
-  function palm_adj_prompts(prompt, result, cur_topic){
-    fetch('https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generateText?key=' + palm_api_key, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: '{ "prompt": { "text": \"' +  prompt  + '\"} }',
-    }).then(response => {
-        if (response.ok) {
-            response.json().then(json => {
-                var palm_resp = json['candidates'][0]['output'];
-                if (cur_topic == "places"){
-                    // you don't need to parse a list since it is a single string
-                    palm_resp = palm_resp.replace(" ", "_")
-                    palm_resp = palm_resp.toLowerCase()
-                    palm_resp = result + '_' + palm_resp
-                    prepare_pwd_result(palm_resp)
-                }else{
-                    potential_responses = parse_palm_resp(palm_resp)
-                    index = Math.floor(Math.random() * potential_responses.length)
-                    prepare_pwd_result(result + '_' + potential_responses[index])
-                }
-            });
-        }
-        // Error message for an incorrect request
-    });
-  }
+// PaLM API request topics for subtopics
+function palm_adj_prompts(prompt, result, cur_topic){
+fetch('https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generateText?key=' + palm_api_key, {
+method: 'POST',
+headers: {
+    'Content-Type': 'application/json',
+},
+body: '{ "prompt": { "text": \"' +  prompt  + '\"}, "temperature": 0.7}',
+}).then(response => {
+    if (response.ok) {
+        response.json().then(json => {
+            var palm_resp = json['candidates'][0]['output'];
+            if ((cur_topic == "places") || (cur_topic == "nfl")){
+                // you don't need to parse a list since it is a single string
+                palm_resp = palm_resp.replace(" ", "_")
+                palm_resp = palm_resp.toLowerCase()
+                palm_resp = result + '_' + palm_resp
+                prepare_pwd_result(palm_resp)
+            }
+            else{
+                potential_responses = parse_palm_resp(palm_resp)
+                index = Math.floor(Math.random() * potential_responses.length)
+                prepare_pwd_result(result + '_' + potential_responses[index])
+            }
+        });
+    }
+    // TODO(anj): Add support for error handling from model response.
+});
+}
 
+// Parsing function common to main topic and subtopic responses from the PaLM model
 function parse_palm_resp(resp){
     resp = resp.replaceAll('```', '')
     resp = resp.replaceAll('\n', '')
@@ -288,7 +300,6 @@ function parse_palm_resp(resp){
     resp = resp.split(',')
     data = []
 
-    // console.log("resp length " + resp.length)
     for(var i=0; i<resp.length; i++){
         value = "test"
         try {
