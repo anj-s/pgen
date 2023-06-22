@@ -6,7 +6,8 @@ There were two main goals that the application is set to accomplish:
 1. Enable seamless login experience
 2. Make it easy to remember personalized passwords
 
-<img width="1121" alt="image" src="https://github.com/anj-s/pgen/assets/32556631/0d357cef-7a65-4b47-b70c-f476925eff4e">
+<img width="1107" alt="image" src="https://github.com/anj-s/pgen/assets/32556631/a9eabdcd-a530-4f26-a7bf-8d1b0b95a679">
+
 
 Currently the PGen has support for the PaLM LLM model which means users will need an API key. This can be generated using instructions [here](https://developers.generativeai.google/tutorials/setup). 
 
