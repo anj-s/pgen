@@ -1,3 +1,5 @@
+![export](https://github.com/anj-s/pgen/assets/32556631/2cb17eed-44a3-4928-abf6-2a11521d56fb)
+
 # PGen - an LLM based password generator
 
 PGen is a chrome extension that can be used to generate passwords using LLMs as a knowledge base. Users can use an existing LLM API key, identify topics that they gravitate towards and use the extension to suggest potential passwords. 
