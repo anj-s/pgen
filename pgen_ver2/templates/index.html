@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.css"> -->
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+        <link href="{{ url_for('static', filename='scrolling-nav.css') }}" rel="stylesheet">
+    </head>
+    <body>
+      {% block body %}
+      <h1 style="text-align: center;"><span style="color: #000000;"><strong>Password Generator </strong></span>
+      </h1>
+      {% endblock %}
+      {% block content %}
+      
+      <form method="POST" enctype="multipart/form-data" align="center">
+      <h3 class="form-group" style="text-align: center;"><strong></strong></h3>
+      <h3 class="form-group" style="text-align: center;">Enter a topic that you want related to your password
+      </h3>
+      
+      <h3 class="form-group" style="text-align: center;"><input type="text" name="my_choice" placeholder="Your topic..." />
+      </h3>
+      
+      <p></p>
+      
+      <h3>Here are a list of possible topics that you can choose instead</h3>
+      <h3><select multiple="multiple" id="mymultiselect" name="mymultiselect" style="text-align: center">
+      <option value="Roger_Federer">Roger_Federer</option>
+      <option value="Sports">Sports</option>
+      <option value="Amsterdam">Amsterdam</option>
+      </select></h3>
+
+      <h3>My password should have ...</h3>
+      <input type="checkbox" id="caps" name="caps" value="caps">
+      <label for="caps"> Caps</label>
+      
+      <button type="submit" class="btn btn-success">Go!</button>
+      </form>
+      {% endblock %} 
+      {% if error %}
+      <p style="text-align: center" class="Error"><strong>Error:</strong>{{error}}</p>
+      {% endif %}
+    </body>
+</html>

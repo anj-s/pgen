@@ -1,0 +1,72 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body>
+    <style>
+      html {
+        height: 600;
+        width: 600;      
+        padding: 5%;
+        overflow-x: auto;
+        overflow-y: auto;
+      }
+      </style>
+    <img src="images/pgen_icon.png">
+    <h1>Get Pgen password </h1>
+    <div id="api_key_div">
+      <form action="" id="api_key_form">
+        <label for="api_key">PaLM API Key:</label><br>
+        <input type="text" id="api_key_txt" name="api_key_txt"><br>
+        <button class="w3-button w3-blue w3-section w3-middle" type="button" id="api_btn">Submit API Key</button>
+      </form>
+    </div>
+
+    <div id="cboxes_div">
+      <div id="places_cboxes"> <label style="font-size:30px;font-family:cursive">Places</label><br></div>
+      <div id="animals_cboxes"><label style="font-size:30px;font-family:cursive">Animals</label><br></div>
+      <div id="colors_cboxes"><label style="font-size:30px;font-family:cursive">Colors</label><br></div>
+      <div id="nfl_cboxes"><label style="font-size:30px;font-family:cursive">NFL</label><br></div>
+      <br>
+    </div>
+
+    
+    <div id="pwd_reqs_div">
+      <label><input class="w3-check" type='checkbox' id="caps_cbox"> Password needs Capital Letters</label>
+      <br>
+      <label><input class="w3-check" type='checkbox' id="special_chars_cbox"> Password needs Special Characters</label>
+      <br>
+      <label><input class="w3-check" type='checkbox' id="numbers_cbox"> Password needs Numbers</label>
+      <br>
+    </div>
+
+    <div id="pwd_result_div">
+      <span class="w3-wide" id="pwd_div" style="font-size:30px;color:blueviolet">
+        password_placeholder
+      </span>
+    </div>
+
+    <div id="pwd_actions_div">
+      <form action="" id="gen_form">
+        <button class="w3-button w3-green w3-section w3-middle" type="button" id="get_btn">Generate Password</button>
+        <br>
+        <button class="w3-button w3-green w3-section w3-middle" type="button" id="reset_btn">Get me another Password</button>
+      </form>
+    </div>
+    <div id="start_div">
+        <button class="w3-button w3-purple w3-section w3-middle" type="button" id="places_btn">Places</button>
+        <br>
+        <button class="w3-button w3-purple w3-section w3-middle" type="button" id="animals_btn">Animals</button>
+        <br>
+        <button class="w3-button w3-purple w3-section w3-middle" type="button" id="colors_btn">Colors</button>
+        <br>
+        <button class="w3-button w3-purple w3-section w3-middle" type="button" id="nfl_btn">NFL</button>
+        <br>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>
