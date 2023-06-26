@@ -99,6 +99,7 @@ function reset_all(){
 
     document.getElementById("special_chars_cbox").checked = false
     document.getElementById("caps_cbox").checked = false
+    document.getElementById("numbers_cbox").checked = false
 
     document.getElementById("cboxes_div").style.display = "block"
     setup_topic_listeners("places")

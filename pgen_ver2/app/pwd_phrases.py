@@ -7,9 +7,8 @@ import shutil
 from . import wiki_content
 
 
-def get_pwd_choices(topics=['Roger_Federer']):
+def get_pwd_choices(topics):
 
-	# Choose the first topic or "Roger_Federer" by default
 	topic = topics[0]
 	
 	# Add multithreading to allow us to pull multiple wiki files
